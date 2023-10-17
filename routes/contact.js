@@ -3,6 +3,7 @@ import ContactController from '../Controllers/ContactController.js';
 
 const contactRouter = Router();
 
-contactRouter.post('/', ContactController.create);
+contactRouter.get('/', ContactController.browse);
+contactRouter.post('/', ContactController.add);
 
 export default contactRouter;
