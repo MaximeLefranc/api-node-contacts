@@ -1,6 +1,7 @@
 import Contact from '../Models/Contact.js';
 import catchAsync from '../helpers/catchAsync.js';
 import existingContact from '../helpers/existingContact.js';
+import checkIsMongooseIdType from '../helpers/checkIsMongooseIdType.js';
 
 const ContactController = {};
 
@@ -16,6 +17,7 @@ ContactController.add = catchAsync(async (req, res) => {
 
 ContactController.read = catchAsync(async (req, res) => {
   const { id } = req.params;
+  checkIsMongooseIdType(id, res);
   const contact = await Contact.findById(id);
   existingContact(contact, res);
 });
@@ -23,12 +25,14 @@ ContactController.read = catchAsync(async (req, res) => {
 ContactController.update = catchAsync(async (req, res) => {
   const { body } = req;
   const { id } = req.params;
+  checkIsMongooseIdType(id, res);
   const contact = await Contact.findByIdAndUpdate(id, body, { new: true });
   existingContact(contact, res);
 });
 
 ContactController.delete = catchAsync(async (req, res) => {
   const { id } = req.params;
+  checkIsMongooseIdType(id, res);
   const contact = await Contact.findByIdAndDelete(id);
   existingContact(contact, res);
 });
