@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import { StatusCodes } from 'http-status-codes';
 import contactRouter from './routes/contact.js';
 
 const app = express();
@@ -18,13 +19,15 @@ app.get('/', (req, res) => {
 app.use('/contacts', contactRouter);
 
 app.use((req, res) => {
-  res.status(404).send('Page non trouvée - Not Found Error 404');
+  res
+    .status(StatusCodes.NOT_FOUND)
+    .send('Page non trouvée - Not Found Error 404');
 });
 
 app.use((err, req, res, next) => {
   console.error(err);
   res
-    .status(500)
+    .status(StatusCodes.INTERNAL_SERVER_ERROR)
     .send(
       'Une erreur interne du serveur vient de se produire, merci de réessayer ultérieurement.'
     );
