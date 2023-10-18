@@ -1,5 +1,6 @@
 import Contact from '../Models/Contact.js';
 import catchAsync from '../helpers/catchAsync.js';
+import existingContact from '../helpers/existingContact.js';
 
 const ContactController = {};
 
@@ -16,7 +17,20 @@ ContactController.add = catchAsync(async (req, res) => {
 ContactController.read = catchAsync(async (req, res) => {
   const { id } = req.params;
   const contact = await Contact.findById(id);
-  res.send(contact);
+  existingContact(contact, res);
+});
+
+ContactController.update = catchAsync(async (req, res) => {
+  const { body } = req;
+  const { id } = req.params;
+  const contact = await Contact.findByIdAndUpdate(id, body, { new: true });
+  existingContact(contact, res);
+});
+
+ContactController.delete = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const contact = await Contact.findByIdAndDelete(id);
+  existingContact(contact, res);
 });
 
 export default ContactController;
