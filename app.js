@@ -18,16 +18,16 @@ app.get('/', (req, res) => {
 app.use('/contacts', contactRouter);
 
 app.use((req, res) => {
-  res.status(400).send('Page non trouvée - Not Found Error 404');
+  res.status(404).send('Page non trouvée - Not Found Error 404');
 });
 
 app.use((err, req, res, next) => {
+  console.error(err);
   res
     .status(500)
     .send(
       'Une erreur interne du serveur vient de se produire, merci de réessayer ultérieurement.'
     );
-  console.error(err);
 });
 
 app.listen(port, () => {
